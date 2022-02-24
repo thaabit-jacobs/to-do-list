@@ -13,19 +13,52 @@ class ToDoApp extends React.Component{
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    //this.complete = this.complete.bind(this);
+    this.handleOnCompleteClick = this.handleOnCompleteClick.bind(this);
+    this.handleOnDeleteClick = this.handleOnDeleteClick.bind(this);
   }
 
   handleSubmit(event){
     event.preventDefault();
 
-    this.setState(prevState => ({
-        toDos: prevState.toDos.concat({item: event.target["enteredToDo"].value, completed: false})
+    const form = event.target;
+
+    let newToDo = form["enteredToDo"].value;
+    let currentTodos = this.state.toDos;
+
+    let foundToDo = currentTodos.find(toDo => toDo.item === newToDo);
+
+    if(foundToDo === undefined){
+      this.setState(prevState => ({
+        toDos: prevState.toDos.concat({item: newToDo, completed: false})
       }))
+    }
+
+    form.reset();
   }
 
-  complete(itemName) {
-      return "complete";
+  handleOnCompleteClick(itemName) {
+    let currentTodos = this.state.toDos;
+    currentTodos = currentTodos.map(toDo => {
+      if(toDo.item === itemName){
+        toDo.completed = true;
+        return toDo;
+      }
+      return toDo;
+    })
+
+    this.setState({
+      toDos: currentTodos
+    })
+  }
+
+  handleOnDeleteClick(itemName){
+    let currentTodos = this.state.toDos;
+
+    currentTodos = currentTodos.filter(toDo => toDo.item !== itemName);
+
+    this.setState({
+      toDos: currentTodos
+    })
   }
 
   render() {
@@ -42,7 +75,9 @@ class ToDoApp extends React.Component{
           </fieldset>
         </form>
 
-        <ToDoList completeFunc={this.complete} list={this.state.toDos} />
+        <ToDoList toDos={this.state.toDos} onCompleteHandler={this.handleOnCompleteClick} onDeleteHandler={this.handleOnDeleteClick}/>
+
+       
       </div>      
     )
   }  
@@ -51,19 +86,31 @@ class ToDoApp extends React.Component{
 function ToDoList(props){
   return (
     <ul>
-      {props.list.map(toDo => <ToDoListItem key={toDo} completeFunc={props.completeFunc} toDoItem={toDo} />)}
+    {
+      props.toDos.map(toDoItem => <ListItem key={toDoItem.item} toDoItem={toDoItem} onCompleteHandler={props.onCompleteHandler} 
+      onDeleteHandler={props.onDeleteHandler}/>)
+    }
     </ul>
   )
 }
 
-function ToDoListItem(props){
-  let completed = "";
-
+function ListItem(props){
   return (
     <li>
-      <p>{props.toDoItem.item}</p> <button onClick={completed = props.completeFunc(props.toDoItem.item)}>Completed</button> <button>Deleted</button>
+      <p className={props.toDoItem.completed ? "complete":""}>{props.toDoItem.item}</p> 
+      <CompletedBtn toDoItem={props.toDoItem.item} onCompleteHandler={props.onCompleteHandler} 
+        isDisabled={props.toDoItem.completed}/>
+      <DeleteBtn toDoItem={props.toDoItem.item} onDeleteHandler={props.onDeleteHandler}/>  
     </li>
   )
+}
+
+function CompletedBtn(props){
+  return <button onClick={() => props.onCompleteHandler(props.toDoItem)} disabled={props.isDisabled}>Completed</button>;
+}
+
+function DeleteBtn(props){
+  return <button onClick={() => props.onDeleteHandler(props.toDoItem)} > Delete</button>;
 }
 
 ReactDOM.render(
