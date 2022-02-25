@@ -63,16 +63,14 @@ class ToDoApp extends React.Component{
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <fieldset>
-            <label>
-                Enter to-do:
-                <input type="text" name="enteredToDo"/>
-            </label>
+      <div className='main'>
 
+        <h1>React Todo App</h1>
+        
+        <form onSubmit={this.handleSubmit}>      
+            <input type="text" name="enteredToDo" placeholder='Enter todo...'/>
+          
             <input type="submit" />
-          </fieldset>
         </form>
 
         <ToDoList toDos={this.state.toDos} onCompleteHandler={this.handleOnCompleteClick} onDeleteHandler={this.handleOnDeleteClick}/>
@@ -97,20 +95,24 @@ function ToDoList(props){
 function ListItem(props){
   return (
     <li>
-      <p className={props.toDoItem.completed ? "complete":""}>{props.toDoItem.item}</p> 
-      <CompletedBtn toDoItem={props.toDoItem.item} onCompleteHandler={props.onCompleteHandler} 
-        isDisabled={props.toDoItem.completed}/>
-      <DeleteBtn toDoItem={props.toDoItem.item} onDeleteHandler={props.onDeleteHandler}/>  
+      <p className={props.toDoItem.completed ? "complete bold":"bold"}>{props.toDoItem.item}</p>
+
+      <div className='btn-grp'>
+        <CompletedBtn  toDoItem={props.toDoItem.item} onCompleteHandler={props.onCompleteHandler} 
+          isDisabled={props.toDoItem.completed}/>
+        <DeleteBtn  toDoItem={props.toDoItem.item} onDeleteHandler={props.onDeleteHandler}/>  
+      </div> 
+
     </li>
   )
 }
 
 function CompletedBtn(props){
-  return <button onClick={() => props.onCompleteHandler(props.toDoItem)} disabled={props.isDisabled}>Completed</button>;
+  return <button className="complete-btn" onClick={() => props.onCompleteHandler(props.toDoItem)} disabled={props.isDisabled}>Completed</button>;
 }
 
 function DeleteBtn(props){
-  return <button onClick={() => props.onDeleteHandler(props.toDoItem)} > Delete</button>;
+  return <button className="delete-btn" onClick={() => props.onDeleteHandler(props.toDoItem)} > Delete</button>;
 }
 
 ReactDOM.render(

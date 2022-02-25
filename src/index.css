@@ -12,7 +12,68 @@ code {
     monospace;
 }
 
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .complete {
   text-decoration: line-through;
+}
+
+
+form{
+  display: flex;
+  column-gap: 0.25rem;
+}
+
+li {
+  width: 30rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+}
+
+input[type="submit"], button {
+  background: non;
+  border: none;
+  border-radius: 7px;
+  padding: 0.25rem 1.5rem;
+  margin-right: 0.25rem;
+  cursor: pointer;
+}
+
+input[type="submit"]{
+  background: rgb(125, 218, 255);
+  color: white;
+}
+
+input[type="submit"]:active{
+  background: rgb(97, 210, 255);
+  color: white;
+}
+
+.delete-btn{
+  background: rgb(253, 96, 96);
+  color: white;
+}
+
+.delete-btn:active{
+  background: rgb(243, 70, 70);
+}
+
+.complete-btn{
+  background: rgb(128, 255, 128);
+  color: white;
+}
+
+.complete-btn:active{
+  background: rgb(70, 255, 70);
+}
+
+.bold {
+  font-weight: bold;
 }
