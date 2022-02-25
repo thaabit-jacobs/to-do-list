@@ -62,7 +62,7 @@ input[type="submit"]:active{
 }
 
 .delete-btn:active{
-  background: rgb(243, 70, 70);
+  background: rgb(199, 51, 51);
 }
 
 .complete-btn{
@@ -70,8 +70,12 @@ input[type="submit"]:active{
   color: white;
 }
 
+.complete-btn:disabled{
+  background: rgb(187, 236, 187);
+}
+
 .complete-btn:active{
-  background: rgb(70, 255, 70);
+  background: rgb(45, 189, 45);
 }
 
 .bold {
